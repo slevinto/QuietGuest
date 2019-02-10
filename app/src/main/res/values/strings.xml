@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">QuietGuest</string>
     <string name="welcome_text">ברוכים הבאים</string>
-    <string name="btn_change_settings">שנה הגדרות</string>
+    <string name="change_settings">שנה הגדרות</string>
     <string name="enter_gate_number_label">מסי טלפון של שער</string>
     <string name="enter_sms_text_label">טקסט לפתיחת שער</string>
     <string name="btn_done">שמור</string>

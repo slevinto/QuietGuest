@@ -13,7 +13,7 @@
         <item name="titleTextColor">@color/colorBackground</item>
 
         <item name="android:editTextStyle">@style/App_editTextStyle</item>
-        <item name="android:buttonStyle">@style/App_ButtonStyle</item>
+        <item name="android:imageButtonStyle">@style/App_ImageButtonStyle</item>
     </style>
 
     <style name="App_editTextStyle" parent="@android:style/Widget.EditText">
@@ -22,11 +22,9 @@
     </style>
 
 
-    <style name="App_ButtonStyle" parent="@android:style/Widget.Button">
-        <item name="android:textColor">@color/colorBackground</item>
-        <item name="android:background">@color/colorText</item>
+    <style name="App_ImageButtonStyle" parent="@android:style/Widget.ImageButton">
+        <item name="android:background">@color/colorBackground</item>
         <item name="android:minHeight">40dip</item>
         <item name="android:minWidth">64dip</item>
     </style>
-
 </resources>

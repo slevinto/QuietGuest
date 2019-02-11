@@ -9,12 +9,18 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Telephony
+import android.support.design.widget.NavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.view.View
+import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class ReadSMS : BroadcastReceiver()
 
@@ -23,12 +29,13 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val KEY_GATE_NUMBER = "gate_number"
         const val KEY_SMS_TEXT = "sms_text"
+        const val prefs = "com.slevinto.quietguest.prefs"
+        const val changeUserPreferencesRequest = 1
     }
 
-    private val prefs = "com.slevinto.quietguest.prefs"
-    private val changeUserPreferencesRequest = 1
     private val smsReadRequest = 100
     private val phoneCallRequest = 42
+    private lateinit var mDrawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +49,42 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), phoneCallRequest)
         }
+
+        val actionbar: ActionBar? = supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_menu)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         // get preferences values from preferences file
         val gateNumber = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_GATE_NUMBER, null)
         val smsText = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_SMS_TEXT, null)
         // values are set
         if (gateNumber != null && smsText != null) {
             setContentView(R.layout.activity_main)
+            mDrawerLayout = findViewById(R.id.drawer_layout)
+            val toolbar: Toolbar = findViewById(R.id.toolbar)
+            setSupportActionBar(toolbar)
+            val actionbar: ActionBar? = supportActionBar
+            actionbar?.apply {
+                setDisplayHomeAsUpEnabled(true)
+                setHomeAsUpIndicator(R.drawable.ic_menu)
+            }
+            val navigationView: NavigationView = findViewById(R.id.nav_view)
+            navigationView.setNavigationItemSelectedListener { menuItem ->
+                // set item as selected to persist highlight
+                menuItem.isChecked = true
+                // close drawer when item is tapped
+                when (menuItem.itemId){
+                    R.id.change_settings -> btnChangeSettingsClicked()
+                }
+                mDrawerLayout.closeDrawers()
+                true
+            }
         }
         else {  // values not set
             val intent = Intent(this, UserPreferencesActivity::class.java)
@@ -124,10 +161,19 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        setContentView(R.layout.activity_main)
     }
 
-    fun btnChangeSettingsClicked(@Suppress("UNUSED_PARAMETER")view: View) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                mDrawerLayout.openDrawer(GravityCompat.START)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun btnChangeSettingsClicked() {
         val intent = Intent(this, UserPreferencesActivity::class.java)
         val gateNumber = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_GATE_NUMBER, null)
         val smsText = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_SMS_TEXT, null)

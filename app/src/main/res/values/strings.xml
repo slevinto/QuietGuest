@@ -6,4 +6,5 @@
     <string name="enter_sms_text_label">טקסט לפתיחת שער</string>
     <string name="btn_done">שמור</string>
     <string name="btn_contacts">אנשי קשר</string>
+    <string name="statistics">נתונים</string>
 </resources>

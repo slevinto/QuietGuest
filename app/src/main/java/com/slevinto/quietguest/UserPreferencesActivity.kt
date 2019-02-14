@@ -1,6 +1,7 @@
 package com.slevinto.quietguest
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -54,8 +55,10 @@ class UserPreferencesActivity : AppCompatActivity() {
         }
         else {
             val result = Intent()
-            result.putExtra(MainActivity.KEY_GATE_NUMBER, gateNumber)
-            result.putExtra(MainActivity.KEY_SMS_TEXT, smsText)
+            val sharedPref = this.getSharedPreferences(MainActivity.prefs, Context.MODE_PRIVATE).edit()
+            sharedPref.putString(MainActivity.KEY_GATE_NUMBER, gateNumber)
+            sharedPref.putString(MainActivity.KEY_SMS_TEXT, smsText)
+            sharedPref.apply()
             setResult(Activity.RESULT_OK, result)
             finish()
         }

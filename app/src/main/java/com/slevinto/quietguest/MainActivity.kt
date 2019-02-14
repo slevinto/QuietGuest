@@ -1,7 +1,6 @@
 package com.slevinto.quietguest
 
 import android.Manifest
-import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -20,7 +19,6 @@ import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class ReadSMS : BroadcastReceiver()
 
@@ -29,12 +27,23 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val KEY_GATE_NUMBER = "gate_number"
         const val KEY_SMS_TEXT = "sms_text"
+        const val KEY_NAME = "name"
+        const val KEY_SURNAME = "surname"
+        const val KEY_CITY = "city"
+        const val KEY_PHONE = "phone"
+        const val KEY_EMAIL = "email"
+        const val KEY_CLIENT = "client"
+        const val KEY_BUSINESS = "business"
+
         const val prefs = "com.slevinto.quietguest.prefs"
-        const val changeUserPreferencesRequest = 1
     }
 
+    private val changeUserPreferencesRequest = 1
+    private val changePrivateInfoRequest = 2
     private val smsReadRequest = 100
     private val phoneCallRequest = 42
+
+
     private lateinit var mDrawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,22 +58,18 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), phoneCallRequest)
         }
-
-        val actionbar: ActionBar? = supportActionBar
-        actionbar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_menu)
-        }
     }
 
     override fun onStart() {
         super.onStart()
 
         // get preferences values from preferences file
+        val name = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_NAME, null)
         val gateNumber = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_GATE_NUMBER, null)
         val smsText = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_SMS_TEXT, null)
+
         // values are set
-        if (gateNumber != null && smsText != null) {
+        if (name != null && gateNumber != null && smsText != null) {
             setContentView(R.layout.activity_main)
             mDrawerLayout = findViewById(R.id.drawer_layout)
             val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -86,9 +91,12 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-        else {  // values not set
+        else if (name != null) {  // user preferences values not set
             val intent = Intent(this, UserPreferencesActivity::class.java)
             startActivityForResult(intent, changeUserPreferencesRequest)
+        } else { // private info values not set
+            val intent = Intent(this, PrivateInfoActivity::class.java)
+            startActivityForResult(intent, changePrivateInfoRequest)
         }
     }
 
@@ -137,27 +145,6 @@ class MainActivity : AppCompatActivity() {
                     catch (e: Exception) {
                         e.printStackTrace()
                     }
-                }
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == changeUserPreferencesRequest) {
-            if (resultCode == Activity.RESULT_OK) {
-                val gateNumber = data?.getStringExtra(KEY_GATE_NUMBER)
-                val smsText = data?.getStringExtra(KEY_SMS_TEXT)
-                gateNumber?.let {
-                    // save the data in Shared Preferences
-                    val sharedPref = this.getSharedPreferences(prefs, Context.MODE_PRIVATE).edit()
-                    sharedPref.putString(KEY_GATE_NUMBER, gateNumber)
-                    sharedPref.apply()
-                }
-                smsText?.let {
-                    // save the data in Shared Preferences
-                    val sharedPref = this.getSharedPreferences(prefs, Context.MODE_PRIVATE).edit()
-                    sharedPref.putString(KEY_SMS_TEXT, smsText)
-                    sharedPref.apply()
                 }
             }
         }

@@ -7,4 +7,32 @@
     <string name="btn_done">שמור</string>
     <string name="btn_contacts">אנשי קשר</string>
     <string name="statistics">נתונים</string>
+    <string name="name_label">שם</string>
+    <string name="surname_label">שם משפחה</string>
+    <string name="city_label">ישוב מגורים</string>
+    <string name="phone_label">מסי טלפון</string>
+    <string name="email_label">אימייל</string>
+    <string name="client_label">סוג לקוח</string>
+    <string name="business_label">סוג בית עסק</string>
+
+    <string name="array_client_kind">בחר סוג לקוח</string>
+    <string name="array_client_private_label">פרטי</string>
+    <string name="array_client_business_label">בית עסק</string>
+    <string name="array_business_kind">בחר סוג בית עסק</string>
+    <string name="array_business_hosting">אירוח</string>
+    <string name="array_business_factory">מפעל</string>
+    <string name="array_business_food">מפעל</string>
+
+    <string-array name="client_arrays">
+        <item>@string/array_client_kind</item>
+        <item>@string/array_client_private_label</item>
+        <item>@string/array_client_business_label</item>
+    </string-array>
+
+    <string-array name="business_arrays">
+        <item>@string/array_business_kind</item>
+        <item>@string/array_business_hosting</item>
+        <item>@string/array_business_factory</item>
+        <item>@string/array_business_food</item>
+    </string-array>
 </resources>

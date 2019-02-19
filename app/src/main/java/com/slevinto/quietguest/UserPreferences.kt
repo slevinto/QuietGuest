@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_user_preferences.*
 
-class UserPreferencesActivity : AppCompatActivity() {
+class UserPreferences : AppCompatActivity() {
 
     private val errorInputEmpty = "מלא את כל השדות בבקשה"
     private val contactsRequest = 2
@@ -70,3 +70,4 @@ class UserPreferencesActivity : AppCompatActivity() {
         startActivityForResult(intent, contactsRequest)
     }
 }
+

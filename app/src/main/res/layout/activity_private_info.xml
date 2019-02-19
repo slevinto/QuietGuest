@@ -67,7 +67,7 @@
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.238" app:layout_constraintVertical_bias="0.477"/>
+            app:layout_constraintHorizontal_bias="0.29" app:layout_constraintVertical_bias="0.461"/>
     <TextView
             android:id="@+id/businessLabel"
             android:text="@string/business_label"
@@ -77,10 +77,10 @@
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.276" app:layout_constraintVertical_bias="0.558"/>
+            app:layout_constraintHorizontal_bias="0.279" app:layout_constraintVertical_bias="0.53"/>
     <EditText
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
@@ -93,7 +93,7 @@
             tools:ignore="LabelFor"/>
     <EditText
             android:id="@+id/surname"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
@@ -106,7 +106,7 @@
             tools:ignore="LabelFor"/>
     <EditText
             android:id="@+id/city"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:inputType="textShortMessage"
             android:ems="10"
@@ -119,7 +119,7 @@
             tools:ignore="LabelFor"/>
     <EditText
             android:id="@+id/phone"
-            android:layout_width="wrap_content"
+            android:layout_width="158dp"
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
@@ -132,7 +132,7 @@
             tools:ignore="LabelFor"/>
     <EditText
             android:id="@+id/email"
-            android:layout_width="wrap_content"
+            android:layout_width="158dp"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
@@ -147,23 +147,24 @@
     <Spinner
             android:id="@+id/clients_spinner"
             android:entries="@array/client_arrays"
-            android:layout_width="214dp"
-            android:layout_height="38dp"
+            android:layout_width="160dp"
+            android:layout_height="41dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/email" android:layout_marginBottom="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.806" app:layout_constraintVertical_bias="0.073"/>
+            app:layout_constraintHorizontal_bias="0.846" app:layout_constraintVertical_bias="0.459"
+            app:layout_constraintTop_toTopOf="parent"/>
     <Spinner
             android:id="@+id/business_spinner"
             android:entries="@array/business_arrays"
-            android:layout_width="214dp"
+            android:layout_width="193dp"
             android:layout_height="38dp"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/email" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.801" app:layout_constraintVertical_bias="0.215"/>
+            app:layout_constraintHorizontal_bias="0.821" app:layout_constraintVertical_bias="0.168"/>
     <ImageButton
             android:id="@+id/btn_done"
             android:src="@drawable/ic_save"

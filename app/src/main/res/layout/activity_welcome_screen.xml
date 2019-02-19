@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".WelcomeScreen">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="#ffffff"
+             tools:context=".WelcomeScreen">
 
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
     <TextView
             android:id="@+id/fullscreen_content"
             android:layout_width="match_parent"
@@ -16,4 +18,4 @@
             android:textColor="#000"
             android:textSize="25sp" />
 
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>

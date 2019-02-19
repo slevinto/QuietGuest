@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_private_info.*
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail
 
 class PrivateInfoActivity : AppCompatActivity() {
 
@@ -55,6 +56,31 @@ class PrivateInfoActivity : AppCompatActivity() {
             toast.show()
         }
         else {
+            BackgroundMail.newBuilder(this)
+                .withUsername("quietguestinfo@gmail.com")
+                .withPassword("pusich333")
+                .withMailto("slevinto@gmail.com")
+                //.withMailto("benelrom@gmail.com")
+                .withType(BackgroundMail.TYPE_PLAIN)
+                .withSubject("QuietGuest לקוח חדש")
+                .withBody("${getString(R.string.name_label)}: $name\n" +
+                          "${getString(R.string.surname_label)}: $surname\n" +
+                          "${getString(R.string.city_label)}: $city\n" +
+                          "${getString(R.string.phone_label)}: $phone\n" +
+                          "${getString(R.string.email_label)}: $email\n" +
+                          "${getString(R.string.client_label)}: $client\n" +
+                          "${getString(R.string.business_label)}: $business")
+                .withOnSuccessCallback {
+                    val toast = Toast.makeText(applicationContext, errorInputEmpty, Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.TOP , 0, 0)
+                    toast.show()
+                }
+                .withOnFailCallback {
+                    val toast = Toast.makeText(applicationContext, errorInputEmpty, Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.TOP , 0, 0)
+                    toast.show()
+                }
+                .send()
             val result = Intent()
             val sharedPref = this.getSharedPreferences(MainActivity.prefs, Context.MODE_PRIVATE).edit()
             sharedPref.putString(MainActivity.KEY_NAME, name)
@@ -65,6 +91,7 @@ class PrivateInfoActivity : AppCompatActivity() {
             sharedPref.putString(MainActivity.KEY_CLIENT, client)
             sharedPref.putString(MainActivity.KEY_BUSINESS, business)
             sharedPref.apply()
+
             setResult(Activity.RESULT_OK, result)
             finish()
         }

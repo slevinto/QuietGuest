@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         const val KEY_EMAIL = "email"
         const val KEY_CLIENT = "client"
         const val KEY_BUSINESS = "business"
-
         const val prefs = "com.slevinto.quietguest.prefs"
     }
 
@@ -42,11 +41,11 @@ class MainActivity : AppCompatActivity() {
     private val changePrivateInfoRequest = 2
     private val smsReadRequest = 100
     private val phoneCallRequest = 42
-
-
+    private val accessNetworkRequest = 43
+    private val internetRequest = 44
     private lateinit var mDrawerLayout: DrawerLayout
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         val filter = IntentFilter("android.provider.Telephony.SMS_RECEIVED")
         registerReceiver(smsReceiver, filter)
@@ -57,6 +56,14 @@ class MainActivity : AppCompatActivity() {
         //Request Run time Permissions for phone call
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), phoneCallRequest)
+        }
+        //Request Run time Permissions for send email
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_NETWORK_STATE), accessNetworkRequest)
+        }
+        //Request Run time Permissions for send email
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions(arrayOf(Manifest.permission.INTERNET), internetRequest)
         }
     }
 
@@ -92,17 +99,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else if (name != null) {  // user preferences values not set
-            val intent = Intent(this, UserPreferencesActivity::class.java)
+            val intent = Intent(this, UserPreferences::class.java)
             startActivityForResult(intent, changeUserPreferencesRequest)
         } else { // private info values not set
             val intent = Intent(this, PrivateInfoActivity::class.java)
             startActivityForResult(intent, changePrivateInfoRequest)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(smsReceiver)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -126,6 +128,24 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+            accessNetworkRequest -> {
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NETWORK_STATE)) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            requestPermissions(arrayOf(Manifest.permission.ACCESS_NETWORK_STATE), accessNetworkRequest)
+                        }
+                    }
+                }
+            }
+            internetRequest -> {
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.INTERNET)) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            requestPermissions(arrayOf(Manifest.permission.INTERNET), internetRequest)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -140,7 +160,12 @@ class MainActivity : AppCompatActivity() {
                     try {
                         val tel = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_GATE_NUMBER, "")
                         val call = Intent(Intent.ACTION_CALL, Uri.parse("tel:$tel"))
-                        startActivity(call)
+                        try {
+                            startActivity(call)
+                        }
+                        catch ( e: SecurityException ) {
+                            e.printStackTrace()
+                        }
                     }
                     catch (e: Exception) {
                         e.printStackTrace()
@@ -150,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 mDrawerLayout.openDrawer(GravityCompat.START)
@@ -161,7 +186,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun btnChangeSettingsClicked() {
-        val intent = Intent(this, UserPreferencesActivity::class.java)
+        val intent = Intent(this, UserPreferences::class.java)
         val gateNumber = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_GATE_NUMBER, null)
         val smsText = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_SMS_TEXT, null)
         intent.putExtra(KEY_GATE_NUMBER, gateNumber)

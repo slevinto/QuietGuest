@@ -1,13 +1,10 @@
 package com.creativityapps.gmailbackgroundlibrary;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,9 +13,6 @@ import com.creativityapps.gmailbackgroundlibrary.util.GmailSender;
 import com.creativityapps.gmailbackgroundlibrary.util.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 
 public class BackgroundMail {
     private String username;
@@ -182,7 +176,6 @@ public class BackgroundMail {
         private String sendingMessage;
         private String sendingMessageSuccess;
         private String sendingMessageError;
-        private boolean processVisibility = true;
         private OnSuccessCallback onSuccessCallback;
         private OnFailCallback onFailCallback;
 

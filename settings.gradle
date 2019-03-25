@@ -1,1 +1,1 @@
-include ':app', ':gmailbackgroundlibrary'
+include ':app', ':gmailbackgroundlibrary', ':billingapp', ':play_billing'

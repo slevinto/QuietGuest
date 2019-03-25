@@ -3,7 +3,7 @@ package com.slevinto.quietguest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -59,8 +59,8 @@ class PrivateInfoActivity : AppCompatActivity() {
             BackgroundMail.newBuilder(this)
                 .withUsername("quietguestinfo@gmail.com")
                 .withPassword("pusich333")
-                .withMailto("slevinto@gmail.com")
-                //.withMailto("benelrom@gmail.com")
+                //.withMailto("slevinto@gmail.com")
+                .withMailto("benelrom@gmail.com")
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("QuietGuest לקוח חדש")
                 .withBody("${getString(R.string.name_label)}: $name\n" +

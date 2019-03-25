@@ -9,7 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/billingapp" />
             <option value="$PROJECT_DIR$/gmailbackgroundlibrary" />
+            <option value="$PROJECT_DIR$/play_billing" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

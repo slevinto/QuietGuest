@@ -2,14 +2,28 @@
 
 buildscript {
     ext.kotlin_version = '1.3.21'
+    ext.APP_ID = "com.slevinto.quietguest"
+    ext.version_room = "2.1.0-alpha06"
+    ext.version_billing = '1.2'
+    ext.version_lifecycle = '1.1.1'
+    ext.version_coroutines = '1.0.1'//'0.26.1'
+    ext.version_nav = "1.0.0"
+    ext.version_support = "1.0.0"
+    ext.version_espresso = "3.1.0-alpha4"
+    ext.version_runner = "1.1.0-alpha4"
+    ext.version_rules = "1.1.0-alpha4"
+    ext.version_arch_core = "2.0.0"
+    ext.rxJavaVersion = "2.2.6"
+    ext.rxAndroidVersion = "2.1.0"
+
     repositories {
         google()
         jcenter()
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

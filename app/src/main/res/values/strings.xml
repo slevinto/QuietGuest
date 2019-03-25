@@ -23,6 +23,13 @@
     <string name="array_business_factory">מפעל</string>
     <string name="array_business_food">מפעל</string>
 
+    <string name="gateOpens">מספר פתיחות שנשאר</string>
+    <string name="fun_products">כמות שערים לפתיחה</string>
+    <string name="fun_subscriptions">מנוי חודשי</string>
+    <string name="alert_no_gate_opens">צריך לקנות שערים לפתיחה</string>
+    <string name="alert_gate_opens">שער נפתח כרגע</string>
+    <string name="purchaseGateOpens">רכוש 10 פתיחות</string>
+    <string name="openGate">פתח שער</string>
     <string-array name="client_arrays">
         <item>@string/array_client_kind</item>
         <item>@string/array_client_private_label</item>
@@ -35,5 +42,4 @@
         <item>@string/array_business_factory</item>
         <item>@string/array_business_food</item>
     </string-array>
-
 </resources>

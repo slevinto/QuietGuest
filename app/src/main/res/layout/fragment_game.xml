@@ -1,0 +1,55 @@
+<!-- The main content view -->
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".GameFragment"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/text_gate_opens_count"
+            android:text="@string/gateOpens"
+            android:layout_width="150dp"
+            android:layout_height="27dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="36dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="0.107"/>
+    <TextView
+        android:id="@+id/gate_opens_count"
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+         app:layout_constraintEnd_toStartOf="@+id/text_gate_opens_count"
+        android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.107"
+        app:layout_constraintHorizontal_bias="0.52"/>
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_drive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/openGate"
+            app:layout_constraintBottom_toTopOf="@id/btn_purchase"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="spread" app:layout_constraintHorizontal_bias="0.489"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_purchase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/purchaseGateOpens"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_drive"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

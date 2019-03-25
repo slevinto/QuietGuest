@@ -15,7 +15,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         <meta-data
                 android:name="com.google.android.actions"
-                android:resource="@menu/navigation_drawer"/>
+                android:resource="@xml/navigation_drawer"/>
 
         <activity android:name=".PrivateInfoActivity">
         </activity>

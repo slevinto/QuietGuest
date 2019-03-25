@@ -10,15 +10,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Telephony
-import android.support.design.widget.NavigationView
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 abstract class ReadSMS : BroadcastReceiver()
 
@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private val accessNetworkRequest = 43
     private val internetRequest = 44
     private lateinit var mDrawerLayout: DrawerLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -65,6 +66,29 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(arrayOf(Manifest.permission.INTERNET), internetRequest)
         }
+
+        setContentView(R.layout.activity_main)
+
+        // setup drawer view
+        mDrawerLayout = findViewById(R.id.drawer_layout)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val actionbar: ActionBar? = supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_menu)
+        }
+        val navigationView: NavigationView = findViewById(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            // set item as selected to persist highlight
+            menuItem.isChecked = true
+            // close drawer when item is tapped
+            when (menuItem.itemId){
+                R.id.change_settings -> btnChangeSettingsClicked()
+            }
+            mDrawerLayout.closeDrawers()
+            true
+        }
     }
 
     override fun onStart() {
@@ -77,26 +101,7 @@ class MainActivity : AppCompatActivity() {
 
         // values are set
         if (name != null && gateNumber != null && smsText != null) {
-            setContentView(R.layout.activity_main)
-            mDrawerLayout = findViewById(R.id.drawer_layout)
-            val toolbar: Toolbar = findViewById(R.id.toolbar)
-            setSupportActionBar(toolbar)
-            val actionbar: ActionBar? = supportActionBar
-            actionbar?.apply {
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_menu)
-            }
-            val navigationView: NavigationView = findViewById(R.id.nav_view)
-            navigationView.setNavigationItemSelectedListener { menuItem ->
-                // set item as selected to persist highlight
-                menuItem.isChecked = true
-                // close drawer when item is tapped
-                when (menuItem.itemId){
-                    R.id.change_settings -> btnChangeSettingsClicked()
-                }
-                mDrawerLayout.closeDrawers()
-                true
-            }
+
         }
         else if (name != null) {  // user preferences values not set
             val intent = Intent(this, UserPreferences::class.java)
@@ -152,30 +157,31 @@ class MainActivity : AppCompatActivity() {
     private val smsReceiver = object : ReadSMS() {
         override fun onReceive(context: Context, intent: Intent) {
             // Here you receive SMS content
-            val data = intent.extras
-            val pdusObj = data!!.get("pdus") as Array<*>
-            for (i in pdusObj.indices) {
-                val currentMessage = Telephony.Sms.Intents.getMessagesFromIntent(intent)[0].displayMessageBody
-                if (currentMessage == getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_SMS_TEXT, "")) {
-                    try {
-                        val tel = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_GATE_NUMBER, "")
-                        val call = Intent(Intent.ACTION_CALL, Uri.parse("tel:$tel"))
+            val gameFr = GameFragment()
+            if (gameFr.onGateOpen()) {
+                val data = intent.extras
+                val pdusObj = data!!.get("pdus") as Array<*>
+                for (i in pdusObj.indices) {
+                    val currentMessage = Telephony.Sms.Intents.getMessagesFromIntent(intent)[0].displayMessageBody
+                    if (currentMessage == getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_SMS_TEXT,"")) {
                         try {
-                            startActivity(call)
-                        }
-                        catch ( e: SecurityException ) {
+                            val tel = getSharedPreferences(prefs, Context.MODE_PRIVATE).getString(KEY_GATE_NUMBER, "")
+                            val call = Intent(Intent.ACTION_CALL, Uri.parse("tel:$tel"))
+                            try {
+                                startActivity(call)
+                            } catch (e: SecurityException) {
+                                e.printStackTrace()
+                            }
+                        } catch (e: Exception) {
                             e.printStackTrace()
                         }
-                    }
-                    catch (e: Exception) {
-                        e.printStackTrace()
                     }
                 }
             }
         }
     }
 
-     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 mDrawerLayout.openDrawer(GravityCompat.START)
